@@ -47,7 +47,8 @@ class DatabricksCluster(Cluster):
     def dashboard_link(self):
         cluster_id = spark.conf.get("spark.databricks.clusterUsageTags.clusterId")
         org_id = spark.conf.get("spark.databricks.clusterUsageTags.orgId")
-        return f"https://dbc-dp-{org_id}.cloud.databricks.com/driver-proxy/o/{org_id}/{cluster_id}/8087/status"
+        workspace_url = spark.conf.get("spark.databricks.workspaceUrl")
+        return f"https://{workspace_url}/driver-proxy/o/{org_id}/{cluster_id}/8087/status"
 
 
 def get_client():
