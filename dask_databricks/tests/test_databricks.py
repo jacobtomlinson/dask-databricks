@@ -38,6 +38,14 @@ def test_databricks_cluster_raises_key_error_when_initialised_outside_of_databri
     with pytest.raises(KeyError):
         DatabricksCluster()
 
+def test_databricks_cluster_raises_environment_error_when_master_variable_implies_single_node(
+    monkeypatch,
+    set_spark_local_ip,
+    dask_cluster,
+):
+    monkeypatch.setenv("MASTER", "local[8]")
+    with pytest.raises(EnvironmentError):
+        DatabricksCluster()
 
 def test_databricks_cluster_create(set_spark_local_ip, dask_cluster):
     cluster = DatabricksCluster()
